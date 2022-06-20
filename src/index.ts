@@ -1,8 +1,8 @@
 import { toString } from "lodash-es";
 import JSONbig from 'json-bigint';
 
-import { READY_STATE } from "@/constants";
-import { SocketConfig } from '@/interfaces';
+import { READY_STATE } from "./constants";
+import { SocketConfig } from './interfaces';
 
 const HEART_BEAT_MESSAGE = "55";
 const HEART_BEAT_TIME = 10000;
