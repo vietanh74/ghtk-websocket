@@ -1,8 +1,8 @@
 {
-  "name": "ghtk-websocket",
-  "version": "0.1.6",
+  "name": "vietanh-websocket",
+  "version": "0.1.7",
   "description": "",
-  "repository": "https://github.com/vietanh74/ghtk-websocket",
+  "repository": "https://github.com/vietanh74/vietanh-websocket",
   "author": "vietanh <tavietanh74@gmail.com>",
   "private": false,
   "keywords": [],

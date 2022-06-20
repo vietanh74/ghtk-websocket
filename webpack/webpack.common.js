@@ -8,7 +8,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(process.cwd(), 'dist'),
-    library: 'ghtk-websocket',
+    library: 'vietanh-websocket',
     libraryTarget: 'umd',
     clean: true,
   },
