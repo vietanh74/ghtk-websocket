@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "./dist/",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -17,8 +18,6 @@
   },
   "exclude": [
     "node_modules",
-    "dist",
-    "index.js",
-    "webpack"
+    "dist"
   ],
 }
