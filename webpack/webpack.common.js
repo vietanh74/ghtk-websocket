@@ -1,17 +1,9 @@
 const path = require('path');
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
+const dotenv = require('dotenv').config({ path: process.cwd() + '/.env'});
+const webpack = require('webpack');
 
 module.exports = {
-  entry: {
-    index: './src/index',
-  },
-  output: {
-    filename: 'index.js',
-    path: path.resolve(process.cwd(), 'dist'),
-    library: 'vietanh-websocket',
-    libraryTarget: 'umd',
-    clean: true,
-  },
   module: {
     rules: [
       // {
@@ -30,6 +22,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      '@': path.join(process.cwd(), 'src')
+    }
   },
   plugins: [
     new CopyPlugin({
@@ -39,6 +34,10 @@ module.exports = {
           to: "",
         },
       ],
+    }),
+
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(dotenv.parsed) || {},
     }),
   ],
 };

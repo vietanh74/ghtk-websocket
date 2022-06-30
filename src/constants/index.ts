@@ -4,3 +4,5 @@ export const READY_STATE = {
   CLOSING: 2,
   CLOSED: 3
 }
+
+export const HEART_BEAT_MESSAGE = '55';
