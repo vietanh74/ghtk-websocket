@@ -10,9 +10,9 @@ class SocketClient {
   private missedHeartbeats: number = 0;
   private heartBeatInterval: ReturnType<typeof setInterval> = null;
   private pollRetryConnection: ReturnType<typeof setInterval> = null;
-  private presentSubs: any[] = [];
+  private presentSubs: string[] = [];
   private failedSubQueue: any[] = [];
-  private options: SocketOption = {
+  private opts: SocketOption = {
     url: '',
     wsKey: '',
     reconnection: true,
@@ -21,13 +21,18 @@ class SocketClient {
     reconnectionDelay: 1000,
   };
 
-  constructor(options: SocketOption) {
-    this.options = options;
+  constructor(opts: SocketOption) {
+    this.opts = opts;
   }
 
-  connect() {
+  /**
+   * Connect to websocket.
+   *
+   * @return client
+   */
+  public connect() {
     if (!this.client || this.client.readyState === READY_STATE.CLOSED) {
-      this.client = new WebSocket(this.options.url);
+      this.client = new WebSocket(this.opts.url);
       this.client.onopen = (e) => {
         this.processQueue();
 
@@ -41,19 +46,24 @@ class SocketClient {
           return;
         }
 
-        if (this.options.onMessageCallback) {
-          this.options.onMessageCallback(e);
+        if (this.opts.onMessageCallback) {
+          this.opts.onMessageCallback(e);
         }
       };
 
-      if (this.options.reconnection) {
+      if (this.opts.reconnection) {
         this.client.addEventListener('close', this.reconnect);
       }
     }
     return this.client;
   }
 
-  reconnect() {
+  /**
+   *  Reconnect websocket.
+   *
+   * @return void
+   */
+  public reconnect() {
     setTimeout(() => {
       this.pollRetryConnection = setInterval(() => {
         const client = this.connect();
@@ -65,10 +75,10 @@ class SocketClient {
           const newSubList = [...this.presentSubs];
           this.presentSubs = [];
           newSubList.forEach((item) => {
-            this.sendSubEvent(item);
+            this.emitSub(item);
           });
         };
-      }, this.options.reconnectionDelay);
+      }, this.opts.reconnectionDelay);
     }, 1000);
   }
 
@@ -83,7 +93,7 @@ class SocketClient {
     this.missedHeartbeats = 0;
     this.heartBeatInterval = setInterval(() => {
       this.missedHeartbeats++;
-      if (this.missedHeartbeats >= this.options.maxMissedHeartbeats) {
+      if (this.missedHeartbeats >= this.opts.maxMissedHeartbeats) {
         console.log('Too many missed heartbeats.');
         clearInterval(this.heartBeatInterval);
         this.heartBeatInterval = null;
@@ -98,17 +108,23 @@ class SocketClient {
   private processQueue() {
     this.failedSubQueue.forEach((queueItem) => {
       if (queueItem.name === 'sub') {
-        this.sendSubEvent(queueItem.value);
+        this.emitSub(queueItem.value);
       }
 
       if (queueItem.name === 'unsub') {
-        this.sendUnSubEvent(queueItem.value);
+        this.emitUnsub(queueItem.value);
       }
     });
     this.failedSubQueue = [];
   }
 
-  sendSubEvent = (type: string) => {
+  /**
+   *  Send subcribe to a event.
+   *
+   * @param type - event type
+   * @return void
+   */
+  public emitSub(type: string) {
     if (this.client?.readyState !== READY_STATE.OPEN) {
       this.failedSubQueue.push({
         name: 'sub',
@@ -118,19 +134,25 @@ class SocketClient {
     }
 
     if (this.presentSubs.includes(type)) {
-      this.client.send(`${this.options.wsKey}|sub|${type}`);
+      this.client.send(`${this.opts.wsKey}|sub|${type}`);
       return;
     }
 
     if (this.client?.readyState === READY_STATE.OPEN) {
-      this.client.send(`${this.options.wsKey}|sub|${type}`);
+      this.client.send(`${this.opts.wsKey}|sub|${type}`);
 
       // Add sub
       this.presentSubs.push(type);
     }
   };
 
-  sendUnSubEvent = (type: string) => {
+  /**
+   *  Send unsubcribe to a event.
+   *
+   * @param type - event type
+   * @return void
+   */
+  public emitUnsub(type: string) {
     if (this.client?.readyState !== READY_STATE.OPEN) {
       this.failedSubQueue.push({
         name: 'unsub',
@@ -145,26 +167,31 @@ class SocketClient {
       // Remove sub list and send unsub event
       if (subIndex > -1) {
         this.presentSubs.splice(subIndex, 1);
-        this.client.send(`${this.options.wsKey}|unsub|${type}`);
+        this.client.send(`${this.opts.wsKey}|unsub|${type}`);
       }
     }
   };
 
-  on(eventName: string, callback) {
-    this.client.addEventListener(eventName, callback);
+  public on(eventName: string, fn: EventListenerOrEventListenerObject) {
+    this.client.addEventListener(eventName, fn);
   }
 
-  off(eventName: string, callback) {
-    this.client.removeEventListener(eventName, callback);
+  public off(eventName: string, fn: EventListenerOrEventListenerObject) {
+    this.client.removeEventListener(eventName, fn);
   }
 
-  close() {
+  /**
+   *  Close connection.
+   *
+   * @return void
+   */
+  public close() {
     this.presentSubs = [];
     this.failedSubQueue = [];
     clearInterval(this.heartBeatInterval);
     clearInterval(this.pollRetryConnection);
 
-    if (this.options.reconnection) {
+    if (this.opts.reconnection) {
       this.client.removeEventListener('close', this.reconnect);
     }
 

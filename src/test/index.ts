@@ -8,7 +8,7 @@ const ab = socketClient({
 
 ab.connect()
 
-ab.sendSubEvent('test');
+ab.emitSub('test');
 
 ab.on('message', (e) => {
   if (!e) {
