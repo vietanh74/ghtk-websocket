@@ -1,16 +1,16 @@
 
 import { socketClient } from '../index';
 
-const ab = socketClient({
+const client = socketClient({
   url: process.env.WS_URL,
   wsKey: process.env.WS_KEY,
 });
 
-ab.connect()
+client.connect();
 
-ab.emitSub('test');
+client.emitSub('test');
 
-ab.on('message', (e) => {
+client.on('message', (e) => {
   if (!e) {
     return;
   }

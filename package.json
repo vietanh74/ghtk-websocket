@@ -1,6 +1,6 @@
 {
   "name": "vietanh-websocket",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "",
   "repository": "https://github.com/vietanh74/vietanh-websocket",
   "author": "vietanh <tavietanh74@gmail.com>",
@@ -8,7 +8,7 @@
   "keywords": [],
   "sideEffects": false,
   "scripts": {
-    "dev": "webpack serve --env local --progress --config webpack/webpack.dev.js",
+    "dev": "webpack serve --progress --config webpack/webpack.dev.js",
     "build": "webpack --config webpack/webpack.prod.js && ttsc --emitDeclarationOnly"
   },
   "license": "ISC",

@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge');
 const path = require('path');
+const LIBRARY_NAME = require('../package.json').name;
 
 const common = require('./webpack.common.js');
 
@@ -11,7 +12,7 @@ module.exports = merge(common, {
   output: {
     filename: 'index.js',
     path: path.resolve(process.cwd(), 'dist'),
-    library: 'vietanh-websocket',
+    library: LIBRARY_NAME,
     libraryTarget: 'umd',
     clean: true,
   },

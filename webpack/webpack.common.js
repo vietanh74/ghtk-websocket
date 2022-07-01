@@ -29,6 +29,10 @@ module.exports = {
           from: "package.json",
           to: "",
         },
+        {
+          from: "README.md",
+          to: "",
+        },
       ],
     }),
 
