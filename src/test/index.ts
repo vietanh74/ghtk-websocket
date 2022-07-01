@@ -6,6 +6,8 @@ const client = socketClient({
   wsKey: process.env.WS_KEY,
 });
 
+console.log('client', client);
+
 client.connect();
 
 client.emitSub('test');
