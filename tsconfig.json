@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "dist",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -20,4 +20,5 @@
     "node_modules",
     "dist"
   ],
+  "include": ["src/**/*"],
 }

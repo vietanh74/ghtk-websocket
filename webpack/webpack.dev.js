@@ -19,7 +19,6 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin({
       templateContent: `
         <html>
-          <script src="/index.js"></script>
           <body>
             <h3>Hello World</h3>
           </body>

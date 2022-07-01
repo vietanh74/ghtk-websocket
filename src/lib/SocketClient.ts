@@ -1,11 +1,11 @@
 import { toString } from 'lodash-es';
 
-import { READY_STATE, HEART_BEAT_MESSAGE } from '../constants';
-import { SocketOption } from '../interfaces';
+import { READY_STATE, HEART_BEAT_MESSAGE } from '@/constants';
+import { SocketOption } from '@/interfaces';
 
 const HEART_BEAT_TIME = 10000;
 
-export class SocketClient {
+class SocketClient {
   private client: WebSocket = null;
   private missedHeartbeats: number = 0;
   private heartBeatInterval: ReturnType<typeof setInterval> = null;
@@ -173,3 +173,7 @@ export class SocketClient {
     }
   }
 }
+
+export const socketClient = (option: SocketOption) => {
+  return new SocketClient(option);
+};

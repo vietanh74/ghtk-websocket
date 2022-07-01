@@ -1,7 +1,7 @@
 import { toString } from 'lodash-es';
 import JSONbig from 'json-bigint';
 
-import { HEART_BEAT_MESSAGE } from '../constants';
+import { HEART_BEAT_MESSAGE } from '@/constants';
 
 
 export const filterMessage = (messageEvent: any, eventNames?: string | string[]) => {
