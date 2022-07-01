@@ -1,5 +1,5 @@
 
-import { socketClient, filterMessage } from '../index';
+import { socketClient } from '../index';
 
 const ab = socketClient({
   url: process.env.WS_URL,
@@ -8,14 +8,12 @@ const ab = socketClient({
 
 ab.connect()
 
-ab.sendSubEvent('shop_S11593_post_102129162012992_391489155749496');
+ab.sendSubEvent('test');
 
 ab.on('message', (e) => {
-  const data = filterMessage(e);
-
-  if (!data) {
+  if (!e) {
     return;
   }
 
-  console.log('data', data);
+  console.log('data', e);
 });

@@ -15,9 +15,10 @@ class SocketClient {
   private options: SocketOption = {
     url: '',
     wsKey: '',
-    autoConnect: false,
+    reconnection: true,
+    reconnectionAttempts: 5,
     maxMissedHeartbeats: 3,
-    autoConnectAfter: 1000,
+    reconnectionDelay: 1000,
   };
 
   constructor(options: SocketOption) {
@@ -45,7 +46,7 @@ class SocketClient {
         }
       };
 
-      if (this.options.autoConnect) {
+      if (this.options.reconnection) {
         this.client.addEventListener('close', this.reconnect);
       }
     }
@@ -67,7 +68,7 @@ class SocketClient {
             this.sendSubEvent(item);
           });
         };
-      }, this.options.autoConnectAfter);
+      }, this.options.reconnectionDelay);
     }, 1000);
   }
 
@@ -163,7 +164,7 @@ class SocketClient {
     clearInterval(this.heartBeatInterval);
     clearInterval(this.pollRetryConnection);
 
-    if (this.options.autoConnect) {
+    if (this.options.reconnection) {
       this.client.removeEventListener('close', this.reconnect);
     }
 

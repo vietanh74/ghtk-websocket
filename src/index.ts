@@ -1,6 +1,5 @@
-import { socketClient, filterMessage } from './lib';
+import { socketClient } from './lib';
 
 export {
   socketClient,
-  filterMessage,
 }
