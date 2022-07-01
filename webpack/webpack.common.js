@@ -10,9 +10,13 @@ module.exports = {
       //   test: /\.js$/i,
       //   use: ['babel-loader'],
       // },
+      // {
+      //   test: /\.ts?$/,
+      //   loader: 'ts-loader',
+      // },
       {
         test: /\.ts?$/,
-        loader: 'ts-loader',
+        loader: 'babel-loader',
       },
     ],
   },
