@@ -32,9 +32,9 @@ client.close();
 | --- | --- | --- | --- | --- |
 | url | `String` | `true` | `''` | Websocket url. |
 | wsKey | `String` | `true` | `''` | Websocket key. |
-| maxMissedHeartbeats | `false` | `Number` | `3` | Max ping after disconnect. |
-| reconnection | `false` | `Boolean` | `true` | Allow reconnection? |
-| reconnectionDelay | `false` | `Number` | `1000` | Delay connect in milisecond(s). |
-| reconnectionAttempts | `false` | `Number` | `5` | Max attempts reconnect. |
-| onMessageCallback | `false` | `Function` | `() => {}` | Fn when receive message regiter beginning. |
+| maxMissedHeartbeats | `Number` | `false` | `3` | Max ping after disconnect. |
+| reconnection | `Boolean` | `false` | `true` | Allow reconnection? |
+| reconnectionDelay | `Number` | `false` | `1000` | Delay connect in milisecond(s). |
+| reconnectionAttempts | `Number` | `false` | `5` | Max attempts reconnect. |
+| onMessageCallback | `Function` | `false` | `() => {}` | Fn when receive message regiter beginning. |
 
