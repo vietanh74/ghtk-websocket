@@ -6,17 +6,9 @@ const webpack = require('webpack');
 module.exports = {
   module: {
     rules: [
-      // {
-      //   test: /\.js$/i,
-      //   use: ['babel-loader'],
-      // },
-      // {
-      //   test: /\.ts?$/,
-      //   loader: 'ts-loader',
-      // },
       {
         test: /\.ts?$/,
-        loader: 'babel-loader',
+        loader: 'swc-loader',
       },
     ],
   },
