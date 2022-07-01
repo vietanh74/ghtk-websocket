@@ -6,7 +6,7 @@ const ab = socketClient({
   wsKey: process.env.WS_KEY,
 });
 
-ab.init()
+ab.connect()
 
 ab.sendSubEvent('shop_S11593_post_102129162012992_391489155749496');
 

@@ -24,7 +24,7 @@ class SocketClient {
     this.options = options;
   }
 
-  init() {
+  connect() {
     if (!this.client || this.client.readyState === READY_STATE.CLOSED) {
       this.client = new WebSocket(this.options.url);
       this.client.onopen = (e) => {
@@ -46,18 +46,17 @@ class SocketClient {
       };
 
       if (this.options.autoConnect) {
-        this.client.addEventListener('close', this.retryConnection);
+        this.client.addEventListener('close', this.reconnect);
       }
     }
     return this.client;
   }
 
-  private retryConnection() {
+  reconnect() {
     setTimeout(() => {
       this.pollRetryConnection = setInterval(() => {
-        const client = this.init();
+        const client = this.connect();
         client.onopen = () => {
-          console.log('Success retry connection');
           this.onPing();
           clearInterval(this.pollRetryConnection);
 
@@ -165,7 +164,7 @@ class SocketClient {
     clearInterval(this.pollRetryConnection);
 
     if (this.options.autoConnect) {
-      this.client.removeEventListener('close', this.retryConnection);
+      this.client.removeEventListener('close', this.reconnect);
     }
 
     if (this.client) {

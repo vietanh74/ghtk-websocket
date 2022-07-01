@@ -13,8 +13,13 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
-    "declarationMap": true,
     "declarationDir": "dist",
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ]
   },
   "exclude": [
     "node_modules",
